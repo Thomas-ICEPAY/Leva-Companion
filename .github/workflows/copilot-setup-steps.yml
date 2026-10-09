@@ -1,0 +1,29 @@
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions: {}
+    timeout-minutes: 20
+    steps:
+      - name: Install Flutter
+        uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
+        with:
+          flutter-version: '3.35.7'
+          channel: stable
+          architecture: x64
+      - name: Preload Android development artifacts
+        run: flutter precache --android
+      - name: Verify Flutter and Dart
+        run: |
+          flutter --version
+          dart --version
